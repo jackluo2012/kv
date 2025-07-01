@@ -14,4 +14,24 @@ readme = "README.md"
 categories = ["development-tools"]
 keywords = []
 
+[[bin]]
+name = "server"
+path = "src/server.rs"
+
+[[bin]]
+name = "client"
+path = "src/client.rs"
+
 [dependencies]
+anyhow = "1.0.98"
+bytes = "1.10.1"
+dashmap = "6.1.0"
+futures = "0.3.31"
+prost = "0.14.1"
+tokio = { version = "1.45.1", features = ["full"] }
+tokio-util = { version = "0.7.15", features = ["codec"] }
+tracing = "0.1.41"
+tracing-subscriber = "0.3.19"
+
+[build-dependencies]
+prost-build = "0.14.1"
