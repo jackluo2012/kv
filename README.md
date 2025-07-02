@@ -48,6 +48,14 @@ cargo run --bin client
 ```bash
 cargo add dashmap
 ```
+## 服务端应用的基本组成部分
+### 数据序列化:serde/protobuf/flatbuffer/capnp/etc.
+### 传输协议:tcp/http/websocket/quic/etc.
+### 安全协议:TLS/noise protocol/secio/etc.
+### 应用协议: your own application logic
+### 数据在各个部分之间的流传:共享内存，channel等
+
+
 
 
 ## License
