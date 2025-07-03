@@ -24,10 +24,12 @@ path = "src/client.rs"
 
 [dependencies]
 anyhow = "1.0.98"
+async-trait = "0.1.88"
 bytes = "1.10.1"
 dashmap = "6.1.0"
 futures = "0.3.31"
 prost = "0.14.1"
+snow = "0.9.6"
 tokio = { version = "1.45.1", features = ["full"] }
 tokio-util = { version = "0.7.15", features = ["codec"] }
 tracing = "0.1.41"

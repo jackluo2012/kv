@@ -1,3 +1,4 @@
+mod noise_codec;
 mod pb;
 use std::sync::Arc;
 
@@ -6,7 +7,8 @@ use dashmap::DashMap;
 
 use futures::{SinkExt, StreamExt};
 use tokio::net::TcpListener;
-use tokio_util::codec::LengthDelimitedCodec;
+// use tokio_util::codec::LengthDelimitedCodec;
+use noise_codec::{NOISE_PARAMS, NoiseCodec, NoiseStream};
 use tracing::info;
 
 use pb::{request::*, *};
@@ -52,9 +54,11 @@ async fn main() -> Result<(), Error> {
             /// 使用2字节长度字段将提供的 `stream` 包装为 `LengthDelimitedCodec`，
             /// 使该流能够以带有长度前缀的帧进行发送和接收。
             /// 这样可以安全高效地在流上传递消息并检测消息边界。
-            let mut stream = LengthDelimitedCodec::builder()
-                .length_field_length(2)
-                .new_framed(stream);
+            // <------- 开始解密  -------->
+            let mut stream = NoiseCodec::builder(NOISE_PARAMS, false).new_framed(stream)?;
+            stream.handshake().await?;
+            // <------- 结束解密 --------->
+            info!("Decryption end");
             // steam.next 实现了读取长度字段的帧
             // 持续读取客户端发送过来的每一帧数据
             while let Some(Ok(buf)) = stream.next().await {
